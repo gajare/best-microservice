@@ -1,3 +1,3 @@
-module best-microservice
+module api-gateway
 
 go 1.24.2
