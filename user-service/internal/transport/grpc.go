@@ -4,15 +4,16 @@ import (
 	"context"
 	"time"
 
-	"github.com/best-microservice/common/protos/user"
+	userpb "github.com/best-microservice/common/protos/user"
 	"github.com/best-microservice/user-service/internal/models"
 	"github.com/best-microservice/user-service/internal/service"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type UserServer struct {
-	user.UnimplementedUserServiceServer
+	userpb.UnimplementedUserServiceServer
 	service *service.UserService
 }
 
@@ -20,7 +21,7 @@ func NewUserServer(service *service.UserService) *UserServer {
 	return &UserServer{service: service}
 }
 
-func (s *UserServer) CreateUser(ctx context.Context, req *user.CreateUserRequest) (*user.UserResponse, error) {
+func (s *UserServer) CreateUser(ctx context.Context, req *userpb.CreateUserRequest) (*userpb.UserResponse, error) {
 	newUser := &models.User{
 		Name:     req.Name,
 		Email:    req.Email,
@@ -32,7 +33,7 @@ func (s *UserServer) CreateUser(ctx context.Context, req *user.CreateUserRequest
 		return nil, status.Errorf(codes.Internal, "failed to create user: %v", err)
 	}
 
-	return &user.UserResponse{
+	return &userpb.UserResponse{
 		Id:        newUser.ID,
 		Name:      newUser.Name,
 		Email:     newUser.Email,
@@ -40,13 +41,13 @@ func (s *UserServer) CreateUser(ctx context.Context, req *user.CreateUserRequest
 	}, nil
 }
 
-func (s *UserServer) GetUser(ctx context.Context, req *user.GetUserRequest) (*user.UserResponse, error) {
+func (s *UserServer) GetUser(ctx context.Context, req *userpb.GetUserRequest) (*userpb.UserResponse, error) {
 	user, err := s.service.GetUser(ctx, req.Id)
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "user not found: %v", err)
 	}
 
-	return &user.UserResponse{
+	return &userpb.UserResponse{
 		Id:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
@@ -54,7 +55,7 @@ func (s *UserServer) GetUser(ctx context.Context, req *user.GetUserRequest) (*us
 	}, nil
 }
 
-func (s *UserServer) AuthenticateUser(ctx context.Context, req *user.AuthRequest) (*user.AuthResponse, error) {
+func (s *UserServer) AuthenticateUser(ctx context.Context, req *userpb.AuthRequest) (*userpb.AuthResponse, error) {
 	user, err := s.service.Authenticate(ctx, req.Email, req.Password)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "authentication failed: %v", err)
@@ -63,9 +64,9 @@ func (s *UserServer) AuthenticateUser(ctx context.Context, req *user.AuthRequest
 	// In a real implementation, generate a proper JWT token
 	token := "generated-jwt-token"
 
-	return &user.AuthResponse{
+	return &userpb.AuthResponse{
 		Token: token,
-		User: &user.UserResponse{
+		User: &userpb.UserResponse{
 			Id:        user.ID,
 			Name:      user.Name,
 			Email:     user.Email,
