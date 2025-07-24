@@ -7,11 +7,12 @@
 package user
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -325,7 +326,7 @@ const file_user_proto_rawDesc = "" +
 	"\n" +
 	"CreateUser\x12\x17.user.CreateUserRequest\x1a\x12.user.UserResponse\x123\n" +
 	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x12.user.UserResponse\x129\n" +
-	"\x10AuthenticateUser\x12\x11.user.AuthRequest\x1a\x12.user.AuthResponseB+Z)github.com/yourproject/common/protos/userb\x06proto3"
+	"\x10AuthenticateUser\x12\x11.user.AuthRequest\x1a\x12.user.AuthResponseB+Z)github.com/best-microservice/common/protos/userb\x06proto3"
 
 var (
 	file_user_proto_rawDescOnce sync.Once

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "github.com/yourproject/common/protos/user";
+option go_package = "github.com/best-microservice/common/protos/user";
 
 service UserService {
     rpc CreateUser (CreateUserRequest) returns (UserResponse);
