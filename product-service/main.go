@@ -15,11 +15,18 @@ import (
 	"github.com/best-microservice/product-service/internal/service"
 	"github.com/best-microservice/product-service/internal/transport"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	// Database connection
+
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	// Connect to the database
 	db, err := sqlx.Connect("postgres", fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_HOST"),
@@ -33,6 +40,8 @@ func main() {
 	}
 	defer db.Close()
 
+	defer db.Close()
+
 	// Initialize repository and service
 	userRepo := repository.NewProductRepository(db)
 	userService := service.NewProductService(userRepo)
@@ -43,13 +52,13 @@ func main() {
 	productpb.RegisterProductServiceServer(grpcServer, userServer)
 
 	// Start server
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	go func() {
-		log.Println("Starting user service on :50051")
+		log.Println("Starting user service on :50052")
 		if err := grpcServer.Serve(lis); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}

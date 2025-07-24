@@ -7,12 +7,11 @@
 package product
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -352,7 +351,7 @@ const file_product_proto_rawDesc = "" +
 	"\rCreateProduct\x12\x1d.product.CreateProductRequest\x1a\x18.product.ProductResponse\x12B\n" +
 	"\n" +
 	"GetProduct\x12\x1a.product.GetProductRequest\x1a\x18.product.ProductResponse\x12K\n" +
-	"\fListProducts\x12\x1c.product.ListProductsRequest\x1a\x1d.product.ListProductsResponseB.Z,github.com/best-microservice/common/protos/productb\x06proto3"
+	"\fListProducts\x12\x1c.product.ListProductsRequest\x1a\x1d.product.ListProductsResponseB4Z2github.com/best-microservice/common/protos/productb\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once

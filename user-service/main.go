@@ -15,12 +15,19 @@ import (
 	"github.com/best-microservice/user-service/internal/service"
 	"github.com/best-microservice/user-service/internal/transport"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"google.golang.org/grpc"
 )
 
 func main() {
 	// Database connection
+	// Load environment variables from .env
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	// Connect to the database
 	db, err := sqlx.Connect("postgres", fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_HOST"),
@@ -29,9 +36,6 @@ func main() {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
 	))
-	if err != nil {
-		log.Fatalf("failed to connect to database: %v", err)
-	}
 	defer db.Close()
 
 	// Initialize repository and service
