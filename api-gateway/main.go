@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -16,6 +17,10 @@ import (
 )
 
 func main() {
+
+	if err := godotenv.Load("../.env"); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
 	// Initialize Gin router
 	router := gin.Default()
 
